@@ -52,7 +52,7 @@ def create_dungeon(map_width, map_height, density, iterations):
         dungeon_map = cell_auto(dungeon_map)
 
     # History made to keep track of the random points
-    history = [[None for _ in range(5)] for _ in range(2)]
+    history = [[None for _ in range(2)] for _ in range(5)]
 
     # TODO I want to make 5 random points on the map that are red
     countRandPts = 0
@@ -65,15 +65,19 @@ def create_dungeon(map_width, map_height, density, iterations):
                 # Add the first race track point since their are none at this point
                 dungeon_map[randX][randY] = 2
                 # Update the history
-                history[0][0]
-                history[0][]
+                history[0][0] = randX
+                history[0][1] = randY
                 # Increment the count
                 countRandPts += 1
             else: 
                 # Check that their are no random points close to one another
-                dungeon_map[randX][randY] = 2
-                # Increment the count
-                countRandPts += 1
+                if checkForPoints(dungeon_map, randX, randY) == True:
+                    dungeon_map[randX][randY] = 2
+                    # Update the history
+                    history[countRandPts][0] = randX
+                    history[countRandPts][1] = randY
+                    # Increment the count
+                    countRandPts += 1
 
 
 
@@ -83,11 +87,9 @@ def create_dungeon(map_width, map_height, density, iterations):
 def checkForPoints(map_data, x, y):
     canPlaceNewPoint = True
     for nx in range(x - 2, x + 3): # This is one to the left through one to the right
-            if canPlaceNewPoint == False: # Break out of outer loop
-                break
             for ny in range(y - 2, y + 3): # This is one above through one below
                 if map_data[nx][ny] == 2:
                     canPlaceNewPoint = False # Break out of inner loop
-                    break
+                    return canPlaceNewPoint
     # Return the number of neighbors that are walls for a particular cell
     return canPlaceNewPoint
