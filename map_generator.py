@@ -4,6 +4,7 @@ import random
 def create_dungeon(map_width, map_height, density, iterations):
     # This creates the noise grid to add randomness to the cellular automata
     def make_noise_grid():
+        # Returns map_data object
         return [[1 if random.randint(1, 100) < density else 0 for j in range(map_width)] for i in range(map_height)]
     
     # This counts the number of neighbors to a cell where the cell is the middle of a 3 by 3 square
@@ -52,3 +53,15 @@ def create_dungeon(map_width, map_height, density, iterations):
 
     # Once the dungeon map has been created return it
     return dungeon_map
+
+def checkForPoints(map_data, x, y):
+    canPlaceNewPoint = True
+    for nx in range(x - 2, x + 3): # This is one to the left through one to the right
+            if canPlaceNewPoint == False: # Break out of outer loop
+                break
+            for ny in range(y - 2, y + 3): # This is one above through one below
+                if map_data[nx][ny] == 2:
+                    canPlaceNewPoint = False # Break out of inner loop
+                    break
+    # Return the number of neighbors that are walls for a particular cell
+    return canPlaceNewPoint

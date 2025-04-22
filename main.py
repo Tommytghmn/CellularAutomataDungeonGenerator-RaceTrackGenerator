@@ -2,7 +2,7 @@ import pygame
 from map_generator import create_dungeon
 
 # Parameters for the look of the dungeon look
-CELL_LENGTH = 10
+CELL_LENGTH = 6
 MAP_WIDTH = 100
 MAP_HEIGHT = 100
 SCREEN_WIDTH = MAP_WIDTH * CELL_LENGTH
@@ -11,8 +11,10 @@ DENSITY = 57
 ITERATIONS = 5
 
 # Colors
-COLOR_FLOOR = (220, 220, 220) # White
-COLOR_WALL = (30, 30, 30) # Black
+COLOR_FLOOR = (50, 180, 0) # Green
+COLOR_WALL = (0, 50, 180) # Blue
+COLOR_DOT = (200, 0, 0) # Red
+COLOR_TRACK = (180, 100, 0) # Orange?
 
 # This will construct the dungeon inside the screen given using the given colors.
 def make_grid(screen, dungeon_map):
