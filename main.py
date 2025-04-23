@@ -3,7 +3,7 @@ from map_generator import create_dungeon
 import random
 
 # Parameters for the look of the dungeon look
-CELL_LENGTH = 5
+CELL_LENGTH = 10
 MAP_WIDTH = 100
 MAP_HEIGHT = 100
 SCREEN_WIDTH = MAP_WIDTH * CELL_LENGTH
