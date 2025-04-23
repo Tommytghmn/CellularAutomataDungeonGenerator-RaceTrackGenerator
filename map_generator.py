@@ -51,11 +51,13 @@ def create_dungeon(map_width, map_height, density, iterations):
         dungeon_map = cell_auto(dungeon_map)
 
     # History made to keep track of the random points
-    history = [[None for _ in range(5)] for _ in range(2)]
+    history = [[None for _ in range(2)] for _ in range(5)]
 
-    # TODO I want to make 5 random points on the map that are red
+    # I want to make 5 random points on the map that are red
     countRandPts = 0
+    count = 0
     while countRandPts < 5:
+        count += 1
         randX = random.randint(0, map_width - 1)
         randY = random.randint(0, map_height - 1)
         if dungeon_map[randX][randY] == 0:
@@ -64,15 +66,27 @@ def create_dungeon(map_width, map_height, density, iterations):
                 # Add the first race track point since their are none at this point
                 dungeon_map[randX][randY] = 2
                 # Update the history
-                history[0][0]
-                history[0][]
+                history[0][0] = randX
+                history[0][1] = randY
                 # Increment the count
                 countRandPts += 1
             else: 
-                # Check that their are no random points close to one another
-                dungeon_map[randX][randY] = 2
-                # Increment the count
-                countRandPts += 1
+                # Check that their are no random points close to one another or overlapping
+                # Check that none of the points are overlapping
+                doesntOverlap = True
+                for i in range(countRandPts):
+                    if randX == history[i][0] and randY == history[i][1]:
+                        doesntOverlap = False
+                if doesntOverlap:
+                    # This doesn't overlap so add it to the dungeon
+                    dungeon_map[randX][randY] = 2
+                    # Update the history
+                    history[countRandPts][0] = randX
+                    history[countRandPts][1] = randY
+                    # Increment the count
+                    countRandPts += 1
+    print(history)
+    print("Count:", count)
 
 
 
