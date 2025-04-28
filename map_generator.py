@@ -71,25 +71,25 @@ def create_dungeon(map_width, map_height, density, iterations):
                 countRandPts += 1
             else: 
                 # Check that their are no random points close to one another
-                if checkForPoints(dungeon_map, randX, randY) == True:
-                    dungeon_map[randX][randY] = 2
+                if checkForPoints(dungeon_map, map_width, map_height, randX, randY) == True:
+                    dungeon_map[randX][randY] = 2 # Make this cell a red point cell
                     # Update the history
                     history[countRandPts][0] = randX
                     history[countRandPts][1] = randY
                     # Increment the count
                     countRandPts += 1
 
-
-
     # Once the dungeon map has been created return it
     return dungeon_map
 
-def checkForPoints(map_data, x, y):
+def checkForPoints(map_data, map_width, map_height, x, y):
     canPlaceNewPoint = True
-    for nx in range(x - 2, x + 3): # This is one to the left through one to the right
-            for ny in range(y - 2, y + 3): # This is one above through one below
-                if map_data[nx][ny] == 2:
-                    canPlaceNewPoint = False # Break out of inner loop
-                    return canPlaceNewPoint
-    # Return the number of neighbors that are walls for a particular cell
+    for nx in range(x - 2, x + 3): # This is two to the left through two to the right
+            for ny in range(y - 2, y + 3): # This is two above through two below
+                if 0 <= nx < map_width and 0 <= ny < map_height:
+                    if map_data[nx][ny] == 2:
+                        canPlaceNewPoint = False # Break out of inner loop
+                        return canPlaceNewPoint
+
+    # Return whether a point can be placed here
     return canPlaceNewPoint
