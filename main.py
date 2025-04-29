@@ -30,6 +30,8 @@ def make_grid(screen, dungeon_map):
                 color = COLOR_WALL
             elif cell == 0:
                 color = COLOR_FLOOR
+            elif cell == 2:
+                color = COLOR_DOT
             else:
                 color = COLOR_RACETRACK
             # This takes the screen, colors, and grid and puts them together to make the dungeon map

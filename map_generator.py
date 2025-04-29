@@ -96,3 +96,16 @@ def checkForPoints(map_data, map_width, map_height, x, y):
 
     # Return whether a point can be placed here
     return canPlaceNewPoint
+
+def thickenTrack(dungeon_map, map_width, map_height, x, y):
+    # This will thicken the track by checking the cells around it
+    for y in range(map_height):
+        for x in range(map_width):
+            if dungeon_map[x][y] == 3:
+                # Check the cells around it
+                for nx in range(x - 1, x + 2): # This is one to the left through one to the right
+                    for ny in range(y - 1, y + 2): # This is one above through one below
+                        if 0 <= nx < map_width and 0 <= ny < map_height:
+                            if dungeon_map[nx][ny] == 0 | dungeon_map[nx][ny] == 1:
+                                dungeon_map[nx][ny] = 3
+    return dungeon_map
