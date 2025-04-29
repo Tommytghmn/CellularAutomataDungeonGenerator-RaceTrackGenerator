@@ -4,6 +4,7 @@ import random
 def create_dungeon(map_width, map_height, density, iterations):
     # This creates the noise grid to add randomness to the cellular automata
     def make_noise_grid():
+        # Returns map_data object
         return [[1 if random.randint(1, 100) < density else 0 for j in range(map_width)] for i in range(map_height)]
     
     # This counts the number of neighbors to a cell where the cell is the middle of a 3 by 3 square
@@ -71,24 +72,27 @@ def create_dungeon(map_width, map_height, density, iterations):
                 # Increment the count
                 countRandPts += 1
             else: 
-                # Check that their are no random points close to one another or overlapping
-                # Check that none of the points are overlapping
-                doesntOverlap = True
-                for i in range(countRandPts):
-                    if randX == history[i][0] and randY == history[i][1]:
-                        doesntOverlap = False
-                if doesntOverlap:
-                    # This doesn't overlap so add it to the dungeon
-                    dungeon_map[randX][randY] = 2
-                    # Update the history
-                    history[countRandPts][0] = randX
-                    history[countRandPts][1] = randY
+                if checkForPoints(dungeon_map, map_width, map_height, randX, randY) == True:
+                        dungeon_map[randX][randY] = 2 # Make this cell a red point cell
+                        # Update the history
+                        history[countRandPts][0] = randX
+                        history[countRandPts][1] = randY
                     # Increment the count
-                    countRandPts += 1
+                        countRandPts += 1
     print(history)
     print("Count:", count)
 
-
-
     # Once the dungeon map has been created return it
     return dungeon_map
+
+def checkForPoints(map_data, map_width, map_height, x, y):
+    canPlaceNewPoint = True
+    for nx in range(x - 2, x + 3): # This is two to the left through two to the right
+            for ny in range(y - 2, y + 3): # This is two above through two below
+                if 0 <= nx < map_width and 0 <= ny < map_height:
+                    if map_data[nx][ny] == 2:
+                        canPlaceNewPoint = False # Break out of inner loop
+                        return canPlaceNewPoint
+
+    # Return whether a point can be placed here
+    return canPlaceNewPoint
