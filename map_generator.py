@@ -54,9 +54,11 @@ def create_dungeon(map_width, map_height, density, iterations):
     # History made to keep track of the random points
     history = [[None for _ in range(2)] for _ in range(5)]
 
-    # TODO I want to make 5 random points on the map that are red
+    # I want to make 5 random points on the map that are red
     countRandPts = 0
+    count = 0
     while countRandPts < 5:
+        count += 1
         randX = random.randint(0, map_width - 1)
         randY = random.randint(0, map_height - 1)
         if dungeon_map[randX][randY] == 0:
@@ -70,14 +72,15 @@ def create_dungeon(map_width, map_height, density, iterations):
                 # Increment the count
                 countRandPts += 1
             else: 
-                # Check that their are no random points close to one another
                 if checkForPoints(dungeon_map, map_width, map_height, randX, randY) == True:
-                    dungeon_map[randX][randY] = 2 # Make this cell a red point cell
-                    # Update the history
-                    history[countRandPts][0] = randX
-                    history[countRandPts][1] = randY
+                        dungeon_map[randX][randY] = 2 # Make this cell a red point cell
+                        # Update the history
+                        history[countRandPts][0] = randX
+                        history[countRandPts][1] = randY
                     # Increment the count
-                    countRandPts += 1
+                        countRandPts += 1
+    print(history)
+    print("Count:", count)
 
     # Once the dungeon map has been created return it
     return dungeon_map
