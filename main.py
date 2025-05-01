@@ -3,22 +3,21 @@ from map_generator import create_dungeon
 import random
 
 # Parameters for the look of the dungeon look
-CELL_LENGTH = 6
-MAP_WIDTH = 100
-MAP_HEIGHT = 100
+CELL_LENGTH = 2 # 2
+MAP_WIDTH = 250 # 250
+MAP_HEIGHT = 250 # 250
 SCREEN_WIDTH = MAP_WIDTH * CELL_LENGTH
 SCREEN_HEIGHT = MAP_HEIGHT * CELL_LENGTH
 DENSITY = 57
-ITERATIONS = 5
+ITERATIONS = 6
 
 # Colors
 COLOR_FLOOR = (50, 180, 0) # Green
 COLOR_WALL = (0, 50, 180) # Blue
-COLOR_DOT = (200, 0, 0) # Red
-COLOR_RACETRACK = (180, 100, 0) # Orange?
+COLOR_RANDOM_SQUARES = (0, 0, 0) # Black
 
 # This will construct the dungeon inside the screen given using the given colors.
-def make_grid(screen, dungeon_map):
+def make_grid(screen, dungeon_map, track_segments):
     # This loops through the rows
     for y, row in enumerate(dungeon_map):
         # This loops through the cells on each row
@@ -30,8 +29,10 @@ def make_grid(screen, dungeon_map):
                 color = COLOR_WALL
             elif cell == 0:
                 color = COLOR_FLOOR
+            elif (x, y) in track_segments:
+                color = track_segments[(x, y)]
             else:
-                color = COLOR_RACETRACK
+                color = COLOR_RANDOM_SQUARES
             # This takes the screen, colors, and grid and puts them together to make the dungeon map
             pygame.draw.rect(screen, color, grid)
 
@@ -44,7 +45,8 @@ def main():
     pygame.display.set_caption("Dungeon Generator/Track Generator")
 
     # Create the dungeon map based on the parameters given
-    dungeon_map = create_dungeon(MAP_WIDTH, MAP_HEIGHT, DENSITY, ITERATIONS)
+    # Color the segments so its easier to tell what is happening.
+    dungeon_map, track_segments = create_dungeon(MAP_WIDTH, MAP_HEIGHT, DENSITY, ITERATIONS)
 
     # This makes it so that the grid is displayed until we dont want it anymore.
     running = True
@@ -53,7 +55,7 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
         # This makes the dungeon map and puts it on the screen.
-        make_grid(screen, dungeon_map)
+        make_grid(screen, dungeon_map, track_segments)
         # This displays the dungeon map
         pygame.display.flip()
 
