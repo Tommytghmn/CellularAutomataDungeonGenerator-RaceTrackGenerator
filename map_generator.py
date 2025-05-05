@@ -10,7 +10,8 @@ def create_dungeon(map_width, map_height, density, iterations):
         return [[1 if random.randint(1, 100) < density else 0 for j in range(map_width)] for i in range(map_height)] # WALLS
         # return [[0 for j in range(map_width)] for i in range(map_height)] # NO WALLS
     
-    # This counts the number of neighbors to a cell where the cell is the middle of a 3 by 3 square
+    # This counts the number of neighbors to a cell where the cell is the middle of a square
+    # The boxlength has to be odd to work
     def num_neighbors(map_data, x, y):
         # Initialize the number of neighbors
         num = 0
@@ -51,7 +52,7 @@ def create_dungeon(map_width, map_height, density, iterations):
     # Create the noise grid for randomness
     dungeon_map = make_noise_grid()
     # Do the cellular automata multiple times to keep adjusting the map
-    for k in range(iterations):
+    for _ in range(iterations):
         dungeon_map = cell_auto(dungeon_map)
 
     # History made to keep track of the random points we want the track to flow through

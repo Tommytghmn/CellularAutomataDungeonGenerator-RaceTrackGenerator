@@ -1,11 +1,11 @@
 import pygame
 from map_generator import create_dungeon
-import random
 
 # Parameters for the look of the dungeon look
+# You can alter these to change the look of the track
 CELL_LENGTH = 2 # 2
-MAP_WIDTH = 250 # 250
-MAP_HEIGHT = 250 # 250
+MAP_WIDTH = 250 # 250 or 500 if you have a monitor is better
+MAP_HEIGHT = 250 # 250 or 500 if you have a monitor is better
 SCREEN_WIDTH = MAP_WIDTH * CELL_LENGTH
 SCREEN_HEIGHT = MAP_HEIGHT * CELL_LENGTH
 DENSITY = 57
@@ -36,6 +36,10 @@ def make_grid(screen, dungeon_map, track_segments):
             # This takes the screen, colors, and grid and puts them together to make the dungeon map
             pygame.draw.rect(screen, color, grid)
 
+# DISCLAIMER sometimes it takes multiple runs to get a track that works. This is due to randomness and wanting the track to not overlap.
+# The pink path connects back to the red path which is usually the most chaotic path since its trying to finish the loop. While the rest of the 
+# paths are trying to get to the closest node to add to the track.
+# Path starts at the node between pink and red and goes to red white all the way around the loop
 def main():
     # Start using pygame to display the cellular automata/track generation
     pygame.init()
