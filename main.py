@@ -18,9 +18,13 @@ COLOR_RANDOM_SQUARES = (0, 0, 0) # Black
 
 # This will construct the dungeon inside the screen given using the given colors.
 def make_grid(screen, dungeon_map, track_segments):
-    # This loops through the rows
+    # This loops through the rows 
+    # y: the row index and 
+    # row: the list of cells in the row
     for y, row in enumerate(dungeon_map):
         # This loops through the cells on each row
+        # x: the column index 
+        # cell: the value stored in the current cell (x, y)
         for x, cell in enumerate(row):
             # This creates the grid based on the parameters given for cell length
             grid = pygame.Rect(x * CELL_LENGTH, y * CELL_LENGTH, CELL_LENGTH, CELL_LENGTH)
