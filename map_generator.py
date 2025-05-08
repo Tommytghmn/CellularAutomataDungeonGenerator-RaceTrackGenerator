@@ -12,17 +12,17 @@ def create_dungeon(map_width, map_height, density, iterations):
     
     # This counts the number of neighbors to a cell where the cell is the middle of a square
     # The boxlength has to be odd to work
-    def num_neighbors(map_data, x, y):
+    def num_neighbors(map_data, currentX, currentY):
         # Initialize the number of neighbors
         num = 0
-        for nx in range(x - 1, x + 2): # This is one to the left through one to the right
-            for ny in range(y - 1, y + 2): # This is one above through one below
-                if nx == x and ny == y:
+        for x in range(currentX - 1, currentX + 2): # This is one to the left through one to the right
+            for y in range(currentY - 1, currentY + 2): # This is one above through one below
+                if x == currentX and y == currentY:
                      # This is the current cell so do nothing
                     continue
-                if 0 <= nx < map_width and 0 <= ny < map_height:
+                if 0 <= x < map_width and 0 <= y < map_height:
                     # This is in the map and now we are counting if the neighboring cells are walls
-                    num += map_data[ny][nx]
+                    num += map_data[y][x]
                 else:
                     # This counts cells outside the map width/length that are still neighbors as walls
                     num += 1
@@ -105,13 +105,13 @@ def create_dungeon(map_width, map_height, density, iterations):
     return dungeon_map, track_segments
 
 # This will check that points dont overlap one another and are spread out
-def check_for_points(map_data, map_width, map_height, x, y):
-    for ny in range(y - 2, y + 3): # This is two to the left through two to the right
-            for nx in range(x - 2, x + 3): # This is two above through two below
+def check_for_points(map_data, map_width, map_height, currentX, currentY):
+    for y in range(currentY - 20, currentY + 21): # This is two to the left through two to the right
+            for x in range(currentX - 20, currentX + 21): # This is two above through two below
                 # Check the points that are in the range and the map
-                if 0 <= nx < map_width and 0 <= ny < map_height:
+                if 0 <= x < map_width and 0 <= y < map_height:
                     # If any of the points in the range are a track square then we don't want to add another one this close so return false
-                    if map_data[ny][nx] == 2:
+                    if map_data[y][x] == 2:
                         return False
     # None of the track squares were too close so return true
     return True
@@ -137,17 +137,17 @@ def a_star(map_data, start, end, crossTracks=False):
     paths = {}
 
     # This function checks the squares up, down, left, and right of the current square to see if they are valid moves
-    def check_moves(x, y):
+    def check_moves(currentX, currentY):
         # Initialize an list to store the moves
         moves = []
         # Loop through potential moves to see if they are valid moves
-        for dy, dx in [(-1, 0), (1, 0), (0, -1), (0, 1)]: # Directions: Up, Down, Left, Right
+        for yDirection, xDirection in [(-1, 0), (1, 0), (0, -1), (0, 1)]: # Directions: Up, Down, Left, Right
             # Calculate the actual squares next to the current point
-            ny, nx = y + dy, x + dx
+            y, x = currentY + yDirection, currentX + xDirection
             # Check that the move we are checking is in the map and isn't a wall
-            if 0 <= nx < map_width and 0 <= ny < map_height and map_data[ny][nx] != 1:
+            if 0 <= x < map_width and 0 <= y < map_height and map_data[y][x] != 1:
                 # This move is valid so add it to the list of moves
-                moves.append((nx, ny))
+                moves.append((x, y))
         # Return the list of valid moves for the current square
         return moves
     
@@ -189,8 +189,8 @@ def a_star(map_data, start, end, crossTracks=False):
     return None # No path found
 
 # This estimates the distance between 2 squares on the map not taking into account obstacles
-def manhattan_distance(a, b): # Accepts the start point and end point as a list
-        return abs(a[0] - b[0]) + abs(a[1] - b[1])
+def manhattan_distance(startPoint, targetPoint): # Accepts the start point and end point as a list
+        return abs(startPoint[0] - targetPoint[0]) + abs(startPoint[1] - targetPoint[1])
                 
 # Apply costs to floor, walls, and tracks so we can use an algorithm to connect the points
 def get_cost(square, crossTracks=False): # Accepts a point as an list
