@@ -154,7 +154,7 @@ def a_star(map_data, start, end, crossTracks=False):
     # While their is content in our priority_queue keep looping
     while priority_queue:
         # This removes the top node from the heap which has the lowest f_cost from the priority_queue
-        # this f_cost is unused here but we need it in order to get current
+        # this _ is unused here but we need it in order to get current
         # current is the square being processed currently
         _, current = heapq.heappop(priority_queue)
 
