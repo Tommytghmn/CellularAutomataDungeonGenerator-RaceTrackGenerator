@@ -31,7 +31,8 @@ def make_grid(screen, dungeon_map, track_segments):
             grid = pygame.Rect(x * CELL_LENGTH, y * CELL_LENGTH, CELL_LENGTH, CELL_LENGTH)
             # This adjusts the color of the cells to black for walls and white for floors.
             if cell == 1:
-                color = COLOR_WALL
+                color = COLOR_WALL # Normal with water
+                # color = COLOR_FLOOR # To remove walls/water
             elif cell == 0:
                 color = COLOR_FLOOR
             elif (x, y) in track_segments:
