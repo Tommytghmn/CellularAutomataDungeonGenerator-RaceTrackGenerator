@@ -1,11 +1,12 @@
 import pygame
 from map_generator import create_dungeon
+from map_generator import thickenTrack
 
 # Parameters for the look of the dungeon look
 # You can alter these to change the look of the track
-CELL_LENGTH = 2 # 2
-MAP_WIDTH = 250 # 250 or 500 if you have a monitor is better
-MAP_HEIGHT = 250 # 250 or 500 if you have a monitor is better
+CELL_LENGTH = 3 # 2
+MAP_WIDTH = 200 # 250 or 500 if you have a monitor is better
+MAP_HEIGHT = 200 # 250 or 500 if you have a monitor is better
 SCREEN_WIDTH = MAP_WIDTH * CELL_LENGTH
 SCREEN_HEIGHT = MAP_HEIGHT * CELL_LENGTH
 DENSITY = 57
@@ -31,12 +32,12 @@ def make_grid(screen, dungeon_map, track_segments):
                 color = COLOR_FLOOR
             elif (x, y) in track_segments:
                 color = track_segments[(x, y)]
-            elif cell == 2:
-                color = COLOR_DOT
             else:
                 color = COLOR_RANDOM_SQUARES
             # This takes the screen, colors, and grid and puts them together to make the dungeon map
             pygame.draw.rect(screen, color, grid)
+
+
 
 # DISCLAIMER sometimes it takes multiple runs to get a track that works. This is due to randomness and wanting the track to not overlap.
 # The pink path connects back to the red path which is usually the most chaotic path since its trying to finish the loop. While the rest of the 
@@ -60,6 +61,10 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+
+        # Makes track wider
+        dungeon_map = thickenTrack(dungeon_map, MAP_WIDTH, MAP_HEIGHT, track_segments)
+        
         # This makes the dungeon map and puts it on the screen.
         make_grid(screen, dungeon_map, track_segments)
         # This displays the dungeon map

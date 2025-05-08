@@ -101,13 +101,14 @@ def create_dungeon(map_width, map_height, density, iterations):
     # Connect points returns the dungeon_map with the floors, track, and walls.
     # Also return the track segments so we can color them that way its easier to identify them
     dungeon_map, track_segments = connect_points(dungeon_map, points)
+    
     # Once the dungeon map and track segments have been created return them
     return dungeon_map, track_segments
 
 # This will check that points dont overlap one another and are spread out
 def check_for_points(map_data, map_width, map_height, x, y):
-    for ny in range(y - 2, y + 3): # This is two to the left through two to the right
-            for nx in range(x - 2, x + 3): # This is two above through two below
+    for ny in range(y - 4, y + 5): # This is two to the left through two to the right
+            for nx in range(x - 4, x + 5): # This is two above through two below
                 # Check the points that are in the range and the map
                 if 0 <= nx < map_width and 0 <= ny < map_height:
                     # If any of the points in the range are a track square then we don't want to add another one this close so return false
@@ -298,18 +299,28 @@ def connect_points(map_data, points):
         print(f"Closing loop between {start} and {end}")  
         # Return the map data as numbers to be interpreted when coloring the grid and color the track using the track segments
         return map_data, track_segments
-    
 
 
-def thickenTrack(dungeon_map, map_width, map_height, x, y):
+def thickenTrack(map_data, map_width, map_height, track_segments):
     # This will thicken the track by checking the cells around it
+    # Make new map
+    new_map_data = [row[:] for row in map_data]
+
+    # Loop through the y axis
     for y in range(map_height):
+        # Loop through the x axis
         for x in range(map_width):
-            if dungeon_map[x][y] == 3:
+            if map_data[y][x] == 2 and (x, y) in track_segments:
+                # Pull the color from the current track segment
+                color = track_segments[(x, y)]
                 # Check the cells around it
                 for nx in range(x - 1, x + 2): # This is one to the left through one to the right
                     for ny in range(y - 1, y + 2): # This is one above through one below
                         if 0 <= nx < map_width and 0 <= ny < map_height:
-                            if dungeon_map[nx][ny] == 0 | dungeon_map[nx][ny] == 1:
-                                dungeon_map[nx][ny] = 3
-    return dungeon_map
+                            if new_map_data[nx][ny] == 0 or new_map_data[nx][ny] == 1:
+                                new_map_data[nx][ny] = 2
+                                # Apply color to new track segments being added
+                                track_segments[(nx, ny)] = color
+                                
+    # Return the new map                
+    return new_map_data
