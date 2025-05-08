@@ -106,8 +106,8 @@ def create_dungeon(map_width, map_height, density, iterations):
 
 # This will check that points dont overlap one another and are spread out
 def check_for_points(map_data, map_width, map_height, currentX, currentY):
-    for y in range(currentY - 20, currentY + 21): # This is two to the left through two to the right
-            for x in range(currentX - 20, currentX + 21): # This is two above through two below
+    for y in range(currentY - 20, currentY + 21): # This is 20 to the left through 20 to the right
+            for x in range(currentX - 20, currentX + 21): # This is 20 above through 20 below
                 # Check the points that are in the range and the map
                 if 0 <= x < map_width and 0 <= y < map_height:
                     # If any of the points in the range are a track square then we don't want to add another one this close so return false
