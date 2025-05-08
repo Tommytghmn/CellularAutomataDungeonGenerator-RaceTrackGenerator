@@ -19,9 +19,13 @@ COLOR_RANDOM_SQUARES = (0, 0, 0) # Black
 
 # This will construct the dungeon inside the screen given using the given colors.
 def make_grid(screen, dungeon_map, track_segments):
-    # This loops through the rows
+    # This loops through the rows 
+    # y: the row index and 
+    # row: the list of cells in the row
     for y, row in enumerate(dungeon_map):
         # This loops through the cells on each row
+        # x: the column index 
+        # cell: the value stored in the current cell (x, y)
         for x, cell in enumerate(row):
             # This creates the grid based on the parameters given for cell length
             grid = pygame.Rect(x * CELL_LENGTH, y * CELL_LENGTH, CELL_LENGTH, CELL_LENGTH)
@@ -55,16 +59,14 @@ def main():
     # Color the segments so its easier to tell what is happening.
     dungeon_map, track_segments = create_dungeon(MAP_WIDTH, MAP_HEIGHT, DENSITY, ITERATIONS)
 
+    # Makes track wider
+    dungeon_map = thickenTrack(dungeon_map, MAP_WIDTH, MAP_HEIGHT, track_segments)
     # This makes it so that the grid is displayed until we dont want it anymore.
     running = True
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-
-        # Makes track wider
-        dungeon_map = thickenTrack(dungeon_map, MAP_WIDTH, MAP_HEIGHT, track_segments)
-        
         # This makes the dungeon map and puts it on the screen.
         make_grid(screen, dungeon_map, track_segments)
         # This displays the dungeon map
