@@ -272,10 +272,10 @@ def connect_points(map_data, points):
             # Increment the color index each time the track segment changes
             color_index += 1
 
-        # The last point of connected points is considered the start
-        start = connected_points[-1]
-        # The first point of connected points is considered the end
-        end = connected_points[0]
+        # The first point of connected points is considered the start
+        start = connected_points[0]
+        # The last point of connected points is considered the end
+        end = connected_points[-1]
         # If the start and the end are different points when proceed if not then fail because their wouldn't be a path between them.
         if start != end:
              # Create a debatably optimal path between two of the random points
