@@ -300,7 +300,7 @@ def connect_points(map_data, points):
         # Return the map data as numbers to be interpreted when coloring the grid and color the track using the track segments
         return map_data, track_segments
 
-
+# This will thicken the track slightly so the tracks turns wont be so severe
 def thickenTrack(map_data, map_width, map_height, track_segments):
     # This will thicken the track by checking the cells around it
     # Make new map
@@ -310,17 +310,19 @@ def thickenTrack(map_data, map_width, map_height, track_segments):
     for y in range(map_height):
         # Loop through the x axis
         for x in range(map_width):
+            # Make sure we are currently on a track segment
             if map_data[y][x] == 2 and (x, y) in track_segments:
                 # Pull the color from the current track segment
                 color = track_segments[(x, y)]
-                # Check the cells around it
-                for nx in range(x - 1, x + 2): # This is one to the left through one to the right
-                    for ny in range(y - 1, y + 2): # This is one above through one below
-                        if 0 <= nx < map_width and 0 <= ny < map_height:
-                            if new_map_data[nx][ny] == 0 or new_map_data[nx][ny] == 1:
-                                new_map_data[nx][ny] = 2
-                                # Apply color to new track segments being added
-                                track_segments[(nx, ny)] = color
-                                
+                # Check the cells around it and convert them into track segments if they aren't already
+                for currentY in range(y - 1, y + 2): # This is one to the left through one to the right
+                    for currentX in range(x - 1, x + 2): # This is one above through one below
+                        if 0 <= currentX < map_width and 0 <= currentY < map_height:
+                            # Check that the cells around the current cell are floors or walls
+                            if new_map_data[currentY][currentX] != 2:
+                                # Make the cell into a track segment
+                                new_map_data[currentY][currentX] = 2
+                                # Apply color to new track segments being added so they are similar to those around them
+                                track_segments[(currentX, currentY)] = color
     # Return the new map                
     return new_map_data

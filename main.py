@@ -59,16 +59,14 @@ def main():
     # Color the segments so its easier to tell what is happening.
     dungeon_map, track_segments = create_dungeon(MAP_WIDTH, MAP_HEIGHT, DENSITY, ITERATIONS)
 
+    # Makes track wider
+    dungeon_map = thickenTrack(dungeon_map, MAP_WIDTH, MAP_HEIGHT, track_segments)
     # This makes it so that the grid is displayed until we dont want it anymore.
     running = True
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-
-        # Makes track wider
-        dungeon_map = thickenTrack(dungeon_map, MAP_WIDTH, MAP_HEIGHT, track_segments)
-        
         # This makes the dungeon map and puts it on the screen.
         make_grid(screen, dungeon_map, track_segments)
         # This displays the dungeon map
