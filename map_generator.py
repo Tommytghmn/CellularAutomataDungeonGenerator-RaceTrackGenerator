@@ -273,13 +273,13 @@ def connect_points(map_data, points):
             color_index += 1
 
         # The first point of connected points is considered the start
-        start = connected_points[0]
+        startPoint = connected_points[0]
         # The last point of connected points is considered the end
-        end = connected_points[-1]
+        endPoint = connected_points[-1]
         # If the start and the end are different points when proceed if not then fail because their wouldn't be a path between them.
-        if start != end:
+        if startPoint != endPoint:
              # Create a debatably optimal path between two of the random points
-            path = a_star(map_data, start, end, crossTracks=False)
+            path = a_star(map_data, startPoint, endPoint, crossTracks=False)
             if path:
                 # For each square on the path if the map is a floor make it into a track
                 for x, y in path:
@@ -292,10 +292,10 @@ def connect_points(map_data, points):
                         track_segments[(x, y)] = colors[color_index]
             else:
                 # If the start and the end are 
-                raise ValueError(f"No path found between points {start} and {end}.")  
+                raise ValueError(f"No path found between points {startPoint} and {endPoint}.")  
         
         print(f"Connecting points: {connected_points}")
-        print(f"Closing loop between {start} and {end}")  
+        print(f"Closing loop between {startPoint} and {endPoint}")  
         # Return the map data as numbers to be interpreted when coloring the grid and color the track using the track segments
         return map_data, track_segments
     
